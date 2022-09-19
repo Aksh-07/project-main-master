@@ -472,7 +472,19 @@ class ProcessUserInput:
             logging.error(f"{e}")
             raise SpeechInvalidArgumentError(str(e))
 
-    def read_input_db_file(self, db_file):
+    def read_input_db_file(self, db_file: str):
+        """read the .txt file given as parameter by user and update table_names, android_input_data, business_input_data, supplies_input_data, data_tag
+        with suitable data
+
+        Args:
+            db_file (str): .txt file
+
+        Raises:
+            SpeechInvalidArgumentError: _description_
+
+        Returns:
+            list: table name
+        """
         try:
             with open(db_file, 'r') as file1:
                 lines = file1.read().splitlines()

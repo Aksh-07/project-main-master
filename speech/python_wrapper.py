@@ -85,11 +85,11 @@ class PythonSpeechWrapper:
             logging.error(f"{e}")
             raise SpeechProcessError("e")
 
-    def update_local_db(self, db_file):
+    def update_local_db(self, db_file: str):
         """calls update_local_data_base() function from user_input module
 
         Args:
-            db_file (TextFile): .txt file to read data from
+            db_file (str): .txt file to read data from
 
         Raises:
             SpeechInvalidArgumentError: _description_
@@ -105,11 +105,11 @@ class PythonSpeechWrapper:
             logging.error(f"{e}")
             raise SpeechInvalidArgumentError("e")
 
-    def create_local_db_tables(self, db_file):
+    def create_local_db_tables(self, db_file: str):
         """create local data base after reading the given db file
 
         Args:
-            db_file (TextFile): .txt file to read data from
+            db_file (str): .txt file to read data from
 
         Returns:
             str: result from function create_local_data_base() from user_input module
