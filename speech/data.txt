@@ -1,0 +1,111 @@
+android,android_actions,1,show,native
+android,android_actions,2,order,native
+android,android_actions,3,get,native
+android,android_actions,4,add,native
+android,android_actions,5,cancel,native
+android,android_actions,6,decline,native
+android,android_actions,7,dismiss,native
+android,android_actions,8,close,native
+android,android_actions,9,play,media
+android,android_actions,10,pause,media
+android,android_actions,11,up,media
+android,android_actions,12,down,media
+android,android_actions,13,change,native
+android,android_actions,14,save,native
+android,android_actions,15,repeat,media
+android,android_actions,16,shuffle,media
+android,android_actions,17,seek,media
+android,android_actions,18,enable,native
+android,android_actions,19,open,native
+android,android_actions,20,ask,native
+android,android_actions,21,accept,native
+android,android_actions,22,delivering,retail
+android,android_actions,23,show,native
+android,android_words,1,photo,media
+android,android_words,2,video,media
+android,android_words,3,memories,media
+android,android_words,4,memory,media
+android,android_words,5,promotion,media
+android,android_words,6,display,media
+android,android_words,7,weather,media
+android,android_words,8,volume,media
+android,global_locations,1,hillsboro,location
+android,global_locations,2,austin,location
+android,global_locations,3,san diego,location
+android,global_locations,4,london,location
+android,global_locations,5,portland,location
+android,global_locations,6,folsom,location
+android,global_locations,7,bangalore,location
+android,adverb_table,1,good,type
+android,adverb_table,2,open,type
+android,adverb_table,3,closed,type
+android,adverb_table,4,shutdown,type
+android,adverb_table,5,giving,type
+android,questions_tenses,1,can,type
+android,questions_tenses,2,should,type
+android,questions_tenses,3,would,type
+android,questions_tenses,4,what,type
+android,questions_tenses,5,when,type
+business,businesses,100,costco,wholesale,48th ave hillsboro,available
+business,businesses,101,walmart,wholesale,47th ave hillsboro,available
+business,businesses,102,target,wholesale,40th ave hillsboro,available
+business,businesses,103,wheels,restaurant,44th ave hillsboro,available
+business,businesses,104,inida imports,grocery,68th ave hillsboro,available
+business,businesses,105,chugs,sports,4th ave hillsboro,available
+business,businesses,106,safe-way,wholesale,8th ave hillsboro,available
+business,businesses,107,fedex,travels,48ne carlaby way hillsboro,available
+business,business_supplies,100,turmeric,grocery,lakshmi,available
+business,business_supplies,101,kumkum,grocery,deep,available
+business,business_supplies,102,mango,grocery,rasa,available
+business,business_supplies,103,tshirt,appearal,banana republic,available
+business,business_supplies,104,ball,sports,cocobura,available
+business,business_supplies,105,egg-plant,grocery,none,available
+business,business_supplies,106,choclate,grocery,reddys,available
+business,business_supplies,107,pizza,food,papa johns,available
+business,business_supplies,108,burger,food,mcdonalds,available
+business,business_actions,1,turmeric,grocery,lakshmi,available
+business,business_actions,2,kumkum,grocery,deep,available
+business,business_actions,3,mango,grocery,rasa,available
+business,business_actions,4,tshirt,appearal,banana republic,available
+business,business_actions,5,ball,sports,cocobura,available
+business,business_actions,6,egg plant,grocery,none,available
+business,business_actions,7,choclate,grocery,reddys,available
+business,business_actions,8,pizza,food,papa johns,available
+business,business_actions,9,burger,food,mcdonalds,available
+supplies,available_supplies,100,mango,grocery,rasa,costco,available
+supplies,available_supplies,101,tshirt,appearal,banana republic,target,available
+supplies,available_supplies,102,ball,sports,cocobura,costco,available
+supplies,available_supplies,103,egg plant,grocery,none,target,available
+supplies,available_supplies,104,choclate,grocery,reddys,walmart,available
+supplies,available_supplies,105,pizza,food,papa johns,papa johns,available
+supplies,available_supplies,106,burger,food,mcdonalds,mcdonalds,available
+supplies,available_supplies,107,turmeric,grocery,lakshmi,india imports,available
+supplies,available_supplies,108,kumkum,grocery,deep,india imports,available
+supplies,available_supplies,109,mango,grocery,rasa,costco,available
+supplies,available_supplies,110,tshirt,appearal,banana republic,costco,available
+supplies,available_supplies,111,ball,sports,cocobura,target,available
+supplies,available_supplies,112,egg plant,grocery,none,walmart,available
+supplies,available_supplies,113,choclate,grocery,reddys,walmart,available
+supplies,available_supplies,114,pizza,food,papa johns,papa johns,available
+supplies,available_supplies,115,burger,food,mcdonalds,mcdonalds,available
+supplies,available_supplies,116,pizza,food,papa johns,papa johns,available
+supplies,available_supplies,117,burger,food,mcdonalds,mcdonalds,available
+supplies,supply_add_ons,1000,turmeric,grocery,lakshmi,india imports,available
+supplies,supply_add_ons,1001,kumkum,grocery,deep,india imports,available
+supplies,supply_add_ons,1002,mango,grocery,rasa,costco,available
+supplies,supply_add_ons,1003,tshirt,appearal,banana republic,costco,available
+supplies,supply_add_ons,1004,ball,sports,cocobura,target,available
+supplies,supply_add_ons,1005,egg plant,grocery,none,walmart,available
+supplies,supply_add_ons,1006,choclate,grocery,reddys,walmart,available
+supplies,supply_add_ons,1007,pizza,food,papa johns,papa johns,available
+supplies,supply_add_ons,1008,burger,food,mcdonalds,mcdonalds,available
+supplies,supply_descriptions,1000,burger,food,mcdonalds,mcdonalds,available
+supplies,supply_descriptions,1001,turmeric,grocery,lakshmi,india imports,available
+supplies,supply_descriptions,1002,kumkum,grocery,deep,india imports,available
+supplies,supply_descriptions,1003,mango,grocery,rasa,costco,available
+supplies,supply_descriptions,1004,tshirt,appearal,banana republic,costco,available
+supplies,supply_descriptions,1005,ball,sports,cocobura,target,available
+supplies,supply_descriptions,1006,egg plant,grocery,none,walmart,available
+supplies,supply_descriptions,1007,choclate,grocery,reddys,walmart,available
+supplies,supply_descriptions,1008,pizza,food,papa johns,papa johns,available
+supplies,supply_descriptions,1009,burger,food,mcdonalds,mcdonalds,available
