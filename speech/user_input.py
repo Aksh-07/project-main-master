@@ -11,13 +11,13 @@ import android_actions as aa
 import retail_actions as ra
 from speech_errors import SpeechResult as enums
 from speech_errors import SpeechProcessError, SpeechInvalidArgumentError
-import multiprocessing.dummy as multiprocessing
-from multiprocessing import Process, Lock, Value
-from threading import Thread, RLock
+# from multiprocessing import Process, Lock, Value
+from threading import Thread, RLock, Semaphore, enumerate
 import queue
 import numpy as np
 import user_database
 import python_wrapper
+from py4j.java_gateway import JavaGateway, GatewayParameters
 
 """sample = [[1, 3, "some", 5], [0, 2, 4, 6], [0, 59, "thing", 2], [9, 5, "yes", 2], [9, 8, "Ko", 6]]
 for x in sample:
@@ -112,14 +112,14 @@ g_a_obj = None
 g_r_obj = None
 
 t_lock = RLock()
-lock = Lock()
-m_lock1 = Lock()
-m_lock2 = Lock()
-m_lock3 = Lock()
 
-text_threads = Value('i', 0)
-video_threads = Value('i', 0)
-audio_threads = Value('i', 0)
+s_lock = Semaphore(3)
+# m_lock2 = RLock()
+# m_lock3 = Lock()
+
+# text_threads = Value('i', 0)
+# video_threads = Value('i', 0)
+# audio_threads = Value('i', 0)
 
 table_names = []
 android_input_data = []
@@ -127,8 +127,8 @@ business_input_data = []
 supplies_input_data = []
 data_tag = []
 
-data_read = Value('i', 0)
-files_accessed = Value('i', 0)
+# data_read = Value('i', 0)
+# files_accessed = Value('i', 0)
 
 # logging.basicConfig(level=logging.DEBUG)
 logging.basicConfig(format="%(levelname)s : %(message)s [%(module)s, %(funcName)s, %(lineno)d]", level=logging.DEBUG)
@@ -136,7 +136,7 @@ logging.getLogger("py4j").setLevel(logging.INFO)
 g_db_obj = user_database.ProcessDataBaseRequests()
 
 
-class BaseProcess(Process):
+class BaseProcess():
     def __init__(self, name=None, target=None, args=()):
         super().__init__()
         self.args = args
@@ -274,8 +274,10 @@ class ProcessUserInput:
             str: FAILURE
         """
         try:
+            gateway = JavaGateway(gateway_parameters=GatewayParameters(auto_convert=True))
+            speech_process = gateway.jvm.speech.AppClass()
             que1 = queue.Queue()
-            t1 = Thread(target=self.g_py_obj.request_user_input_from_java, args=(que1, input_need,))
+            t1 = Thread(target=self.g_py_obj.request_user_input_from_java, args=(que1, input_need, speech_process,))
             t1.start()
             t1.join()
             second_input = que1.get()
@@ -304,8 +306,10 @@ class ProcessUserInput:
             str: FAILURE
         """
         try:
+            gateway = JavaGateway(gateway_parameters=GatewayParameters(auto_convert=True))
+            speech_process = gateway.jvm.speech.AppClass()
             que2 = queue.Queue()
-            t2 = Thread(target=self.g_py_obj.update_new_words_to_analysis, args=(input_need, que2))
+            t2 = Thread(target=self.g_py_obj.update_new_words_to_analysis, args=(input_need, que2, speech_process))
             t2.start()
             t2.join()
             if que2.get() == enums.FAILURE.name:
@@ -371,7 +375,8 @@ class ProcessUserInput:
             str: INVALID_INPUT
         """
         try:
-
+            gateway = JavaGateway(gateway_parameters=GatewayParameters(auto_convert=True))
+            speech_process = gateway.jvm.speech.AppClass()
             if _string is None:
                 return enums.INVALID_INPUT.name
             else:
@@ -398,7 +403,7 @@ class ProcessUserInput:
             if ret_and == enums.SUCCESS.name:
                 logging.debug("User intention is a android action")
                 t3 = Thread(target=self.g_py_obj.process_user_intention_actions,
-                            args=(g_a_obj.generate_android_action_request(),))
+                            args=(g_a_obj.generate_android_action_request(), speech_process,))
                 t3.start()
                 t3.join()
                 # print("here")
@@ -406,7 +411,7 @@ class ProcessUserInput:
             elif ret_ret == enums.SUCCESS.name:
                 logging.debug("User intention is a retail action")
                 t4 = Thread(target=self.g_py_obj.process_user_intention_actions,
-                            args=(g_r_obj.generate_retail_action_request(),))
+                            args=(g_r_obj.generate_retail_action_request(), speech_process,))
                 t4.start()
                 t4.join()
                 return enums.SUCCESS.name
@@ -439,38 +444,45 @@ class ProcessUserInput:
         try:
             if type_ == "audio":
                 user_text = input("Enter something.\n")
-                at = Process(target=self.start_audio_decode, args=(user_text,), name="Audio")
+                at = Thread(target=self.start_audio_decode, args=(user_text,), name="Audio")
                 at.start()
-                m_lock1.acquire()
+                s_lock.acquire()
+                # m_lock1.acquire()
                 at.join()
-                m_lock1.release()
+                # m_lock1.release()
+                s_lock.release()
                 logging.info("Success")
                 return 1
             elif type_ == "video":
                 user_text = input("Enter something.\n")
-                vt = Process(target=self.start_security_decode, args=(user_text,), name="Video")
+                vt = Thread(target=self.start_security_decode, args=(user_text,), name="Video")
                 vt.start()
-                m_lock2.acquire()
+                s_lock.acquire()
+                # m_lock2.acquire()
                 vt.join()
-                m_lock2.release()
+                # m_lock2.release()
+                s_lock.release()
                 logging.info("Success")
                 return 1
             elif type_ == "text":
-                tt = Process(target=self.decode_user_input, args=(_input,), name="Text", daemon=True)
+                tt = Thread(target=self.decode_user_input, args=(_input,), name="Text", daemon=True)
                 tt.start()
-                m_lock3.acquire()
+                # m_lock3.acquire()
+                s_lock.acquire()
                 tt.join()
-                m_lock3.release()
+                # m_lock3.release()
+                s_lock.release()
                 logging.info("Success")
                 return 1
             else:
-                for p in multiprocessing.active_children():
+                for p in enumerate():
                     p.join()
                 logging.info("Success")
                 return 0
         except Exception as e:
             logging.error(f"{e}")
             raise SpeechInvalidArgumentError(str(e))
+
 
     def read_input_db_file(self, db_file: str):
         """read the .txt file given as parameter by user and update table_names, android_input_data, business_input_data, supplies_input_data, data_tag

@@ -295,6 +295,7 @@ class RetailActions:
         """
         try:
             self.get_retail_db_words("Businesses", index)
+            print(f"298: {self.words}")
             if not self.words:
                 logging.error("No business in user request")
                 return None

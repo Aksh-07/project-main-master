@@ -1,6 +1,6 @@
-from multiprocessing import current_process
+# from multiprocessing import current_process
+# import threading
 from py4j.clientserver import ClientServer, JavaParameters, PythonParameters
-from py4j.java_gateway import JavaGateway, GatewayParameters
 import user_input as py_obj
 from datetime import datetime
 from speech_errors import SpeechResult as enums
@@ -155,7 +155,7 @@ class PythonJavaBridge:
         pass
 
     @staticmethod
-    def request_user_input_from_java(que1, input_need: list):
+    def request_user_input_from_java(que1, input_need: list, speech_process):
         """send incomplete_input to java side functions
         Args:
             que1: queue
@@ -178,7 +178,7 @@ class PythonJavaBridge:
             raise SpeechProcessError("e")
 
     @staticmethod
-    def update_new_words_to_analysis(new_user_words: list, que2):
+    def update_new_words_to_analysis(new_user_words: list, que2, speech_process):
         """send the new word to java functions for update and analysis
         Args:
             new_user_words (list): list of words and its related description from user
@@ -201,7 +201,7 @@ class PythonJavaBridge:
             raise SpeechProcessError("e")
 
     @staticmethod
-    def process_user_intention_actions(words: list):
+    def process_user_intention_actions(words: list, speech_process):
         """send list containing information about user input to java side functions
 
         Args:
@@ -218,9 +218,9 @@ class PythonJavaBridge:
             raise SpeechProcessError("e")
 
 
-if current_process().name != "MainProcess":
-    gateway = JavaGateway(gateway_parameters=GatewayParameters(auto_convert=True))
-    speech_process = gateway.jvm.speech.AppClass()
+# if current_process().name != "MainProcess":
+#     gateway = JavaGateway(gateway_parameters=GatewayParameters(auto_convert=True))
+#     speech_process = gateway.jvm.speech.AppClass()
 
 if __name__ == "__main__":
     obj = PythonSpeechWrapper()
