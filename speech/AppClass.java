@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.util.logging.*;
 import py4j.ClientServer;
 import java.util.ArrayList;
-import java.util.Dictionary;
+// import java.util.Dictionary;
 
 class MyThread1 extends Thread {
     /*creates a thread from function sendToPython of class AppClass */

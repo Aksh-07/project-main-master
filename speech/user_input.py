@@ -6,6 +6,7 @@ import logging
 import json
 from datetime import datetime
 """
+from builtins import enumerate as b_enumerate
 import logging
 import android_actions as aa
 import retail_actions as ra
@@ -611,7 +612,7 @@ class ProcessUserInput:
             a = 0
             b = 0
             s = 0
-            for i, table in enumerate(table_names):
+            for i, table in b_enumerate(table_names):
                 if data_tag[i] == "android":
                     res = g_db_obj.insert_android_data(table, android_input_data[a])
                     if res != enums.SUCCESS.name:
