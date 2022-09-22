@@ -34,6 +34,7 @@ class AndroidActions:
             text_input (array): array from function convert_strings_to_num_array(strings)
         """
         self.data = text_input
+        print(f"init data: {self.data}")
         self.words = []
         self.g_ui_obj = self.user_input_data_obj()
         g_db_obj.create_connection()
@@ -142,6 +143,7 @@ class AndroidActions:
                 q_t.put(enums.SUCCESS.name, True)
             else:
                 self.get_android_db_words("Android_words", index)
+                # self.words.append("video".encode("utf_8"))
                 if not self.words:
                     logging.error("No input user process")
                     q_t.put(enums.INVALID_INPUT.name)
@@ -170,19 +172,19 @@ class AndroidActions:
                                 self.words = word
                                 ni = self.additional_user_input(words)
                                 if self.check_android_command_status(ni) == enums.INSUFFICIENT_INPUT.name:
-                                    if self.validate_android_action() is not None:
-                                        logging.error("Invalid input")
-                                        q_t.put(enums.INVALID_INPUT.name)
-                                    else:
+                                    if self.validate_android_action() is None:
                                         logging.info("Success")
                                         q_t.put(enums.SUCCESS.name)
+                                    else:
+                                        logging.error("Invalid input")
+                                        q_t.put(enums.INVALID_INPUT.name)
                                 else:
-                                    if self.validate_android_action() is not None:
-                                        logging.error("Invalid input")
-                                        q_t.put(enums.INVALID_INPUT.name)
-                                    else:
+                                    if self.validate_android_action() is None:
                                         logging.info("Success")
                                         q_t.put(enums.SUCCESS.name)
+                                    else:
+                                        logging.error("Invalid input")
+                                        q_t.put(enums.INVALID_INPUT.name)
                         else:
                             logging.info("Success")
                             q_t.put(enums.SUCCESS.name)
@@ -391,6 +393,7 @@ class AndroidActions:
         """
         try:
             self.get_android_db_words("Android_actions", index)
+            # self.words.append("play".encode("utf_8"))
             action_list = self.words.copy()
             action_list.remove(words)
             for word in action_list:
@@ -411,9 +414,16 @@ class AndroidActions:
         Returns:
             list: a list of dictionaries items with key value pairs
         """
+        global query_type, action_type, location, item_list, description
+
         lis = [{"query_type": query_type}, {"item_list": item_list},
                {"description": description}, {"action_type": action_type}]
         logging.info("Success")
+        query_type = ""
+        item_list = []
+        description = []
+        action_type = ""
+        location = "hillsboro"
         return lis
 
     def validate_android_action(self):

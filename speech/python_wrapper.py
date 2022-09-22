@@ -218,10 +218,6 @@ class PythonJavaBridge:
             raise SpeechProcessError("e")
 
 
-# if current_process().name != "MainProcess":
-#     gateway = JavaGateway(gateway_parameters=GatewayParameters(auto_convert=True))
-#     speech_process = gateway.jvm.speech.AppClass()
-
 if __name__ == "__main__":
     obj = PythonSpeechWrapper()
     client_server = ClientServer(java_parameters=JavaParameters(eager_load=True), python_parameters=PythonParameters(),
@@ -229,6 +225,3 @@ if __name__ == "__main__":
     # gateway = JavaGateway(callback_server_parameters=CallbackServerParameters(), python_server_entry_point=obj)
     print("Python server started")
 
-    stop = input("Press S to stop")
-    if stop.lower() == "s":
-        client_server.close()

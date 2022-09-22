@@ -250,17 +250,17 @@ class ProcessUserInput:
                 data_arr = np.array(arr)
                 t_s = int(np.sum(data_arr))
             if str_len > 1 and w[0] is None and w[1] is None and w[2] is None and w[3] is None:
-                word_lst = [t_s, str_len, [f_s, s_s]]
+                word_lst = [f_s, s_s]
             elif str_len > 1 and w[0] is not None and w[1] is None and w[2] is None and w[3] is None:
-                word_lst = [t_s, str_len, [f_s, s_s, w0_s]]
+                word_lst = [f_s, s_s, w0_s]
             elif str_len > 1 and w[0] is not None and w[1] is not None and w[2] is None and w[3] is None:
-                word_lst = [t_s, str_len, [f_s, s_s, w0_s, w1_s]]
+                word_lst = [f_s, s_s, w0_s, w1_s]
             elif str_len > 1 and w[0] is not None and w[1] is not None and w[2] is not None and w[3] is None:
-                word_lst = [t_s, str_len, [f_s, s_s, w0_s, w1_s, w2_s]]
+                word_lst = [f_s, s_s, w0_s, w1_s, w2_s]
             elif str_len > 1 and w[0] is not None and w[1] is not None and w[2] is not None and w[3] is not None:
-                word_lst = [t_s, str_len, [f_s, s_s, w0_s, w1_s, w2_s, w3_s]]
+                word_lst = [f_s, s_s, w0_s, w1_s, w2_s, w3_s]
             else:
-                word_lst = [t_s, str_len]
+                word_lst = [t_s]
             return word_lst
         except Exception as e:
             raise e
@@ -291,6 +291,8 @@ class ProcessUserInput:
         except Exception as e:
             logging.error(f"{e}")
             raise SpeechProcessError(str(e))
+        finally:
+            gateway.close()
 
     def update_user_input_to_cloud(self, input_need: list):
         """calls update_new_words_to_analysis from python_wrapper module
@@ -320,6 +322,8 @@ class ProcessUserInput:
         except Exception as e:
             logging.error(f"{e}")
             raise SpeechInvalidArgumentError(str(e))
+        finally:
+            gateway.close()
 
     def start_audio_decode(self, data):
         pass
@@ -419,13 +423,13 @@ class ProcessUserInput:
                 logging.error("Unable to process user input")
                 for i in range(0, len(words)):
                     words[i][2] = words[i][2].decode("utf_8")
-                # print(words)
-
                 self.update_user_input_to_cloud(words)
                 return enums.INVALID_INPUT.name
         except Exception as e:
             logging.error(f"{e}")
             raise SpeechProcessError(str(e))
+        finally:
+            gateway.close()
 
     def run(self, type_: str, _input: str):
         """Multiprocessing tasks based upon `type` and then process the user input `_input`

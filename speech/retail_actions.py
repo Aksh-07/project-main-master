@@ -235,6 +235,7 @@ class RetailActions:
         Returns:
             list: a list of dictionaries items with key value pairs
         """
+        global query_type, business_name, item_list, add_ons, description, action_type, location
         lis = {
             "query_type": query_type,
             "item_list": item_list,
@@ -244,6 +245,13 @@ class RetailActions:
         }
         json_object = json.dumps(lis, indent=4)
         logging.info("The business request is : {}".format(json_object))
+        query_type = ""
+        business_name = ""
+        item_list = []
+        add_ons = []
+        description = []
+        action_type = ""
+        location = "hillsboro"
         return json_object
 
     def ret_get_more_input(self, incomplete: list, index):
@@ -295,7 +303,6 @@ class RetailActions:
         """
         try:
             self.get_retail_db_words("Businesses", index)
-            print(f"298: {self.words}")
             if not self.words:
                 logging.error("No business in user request")
                 return None
